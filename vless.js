@@ -1205,7 +1205,8 @@ function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
   const pcl = `https://${hostName}/${userID}/pcl`
   const psb = `https://${hostName}/${userID}/psb`
 
-  const wk\u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);
+  // 根据域名类型生成不同的聚合链接
+  const wk\u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}`);
 
   const pg\u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);	
 	
@@ -1414,31 +1415,6 @@ function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
             box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
         }
         
-        .copy-feedback {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            z-index: 1000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .copy-feedback.show {
-            transform: translateX(0);
-        }
-        
-        .copy-feedback.success {
-            background: #28a745;
-        }
-        
-        .copy-feedback.error {
-            background: #dc3545;
-        }
-        
         .param-list {
             background: #f8f9fa;
             border-radius: 10px;
@@ -1446,215 +1422,206 @@ function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
             margin: 15px 0;
         }
         
+        .param-list h4 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .param-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        
         .param-list li {
-            margin: 8px 0;
-            padding-left: 20px;
-            position: relative;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+            color: #6c757d;
         }
         
-        .param-list li::before {
-            content: '•';
-            color: #667eea;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
+        .param-list li:last-child {
+            border-bottom: none;
         }
         
-        .note-box {
-            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-            border: 1px solid #ffeaa7;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            color: #856404;
+        .param-list strong {
+            color: #495057;
         }
         
-        .note-box strong {
-            color: #856404;
-        }
-        
-        .grid-2 {
+        .subscription-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin: 20px 0;
         }
         
-        .subscription-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin: 25px 0;
-        }
-        
         .subscription-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border: 1px solid #e9ecef;
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            min-width: 0;
-        }
-        
-        .subscription-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
         }
         
         .subscription-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            border-color: #667eea;
         }
         
         .subscription-icon {
             font-size: 2rem;
-            margin-bottom: 12px;
-            display: block;
+            margin-bottom: 15px;
         }
         
         .subscription-content h3 {
             color: #333;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            line-height: 1.3;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
         }
         
         .subscription-content p {
             color: #666;
-            font-size: 0.8rem;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .user-info-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .user-info-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            color: #333;
             margin-bottom: 12px;
-            line-height: 1.3;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .status-text {
+            color: #28a745;
+            font-weight: 500;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+        
+        .subscription-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .link-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .link-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .link-section h3 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .link-section p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
         }
         
         .link-display {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
-            border-radius: 6px;
-            padding: 8px;
+            border-radius: 8px;
+            padding: 10px;
             font-family: 'Courier New', monospace;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             word-break: break-all;
-            margin: 8px 0;
+            margin: 10px 0;
             color: #495057;
-            max-height: 50px;
-            overflow-y: auto;
-            text-align: left;
         }
         
-        .subscription-card .btn {
-            width: 100%;
-            justify-content: center;
-            margin: 8px 0 0 0;
-            font-weight: 500;
-            padding: 8px 12px;
-            font-size: 0.8rem;
+        .note-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
         }
         
         @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
             .header-content {
                 flex-direction: column;
                 text-align: center;
             }
             
-            .grid-2 {
+            .user-info-grid {
                 grid-template-columns: 1fr;
             }
             
-            .subscription-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .subscription-links {
                 gap: 15px;
-            }
-            
-            .container {
-                padding: 0 15px;
-            }
-            
-            .info-card {
-                padding: 20px;
-            }
-            
-            .subscription-card {
-                padding: 15px;
-            }
-            
-            .subscription-icon {
-                font-size: 1.5rem;
-                margin-bottom: 8px;
-            }
-            
-            .subscription-content h3 {
-                font-size: 0.9rem;
-                margin-bottom: 4px;
-            }
-            
-            .subscription-content p {
-                font-size: 0.75rem;
-                margin-bottom: 8px;
-            }
-            
-            .link-display {
-                font-size: 0.65rem;
-                padding: 6px;
-                max-height: 40px;
-            }
-            
-            .subscription-card .btn {
-                padding: 6px 8px;
-                font-size: 0.75rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .subscription-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .subscription-card {
-                padding: 20px;
-            }
-            
-            .subscription-icon {
-                font-size: 2rem;
-                margin-bottom: 12px;
-            }
-            
-            .subscription-content h3 {
-                font-size: 1rem;
-                margin-bottom: 6px;
-            }
-            
-            .subscription-content p {
-                font-size: 0.8rem;
-                margin-bottom: 12px;
             }
             
             .link-display {
                 font-size: 0.7rem;
-                padding: 8px;
-                max-height: 50px;
             }
-            
-            .subscription-card .btn {
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-}
+        }
 </style>
 </head>
 <body>
-    <header class="header">
-<div class="container">
+    <div class="header">
+        <div class="container">
             <div class="header-content">
                 <div class="logo">🚀 ZQ-Vless 配置中心</div>
                 <div class="status-badge">
@@ -1663,23 +1630,42 @@ function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
                 </div>
             </div>
         </div>
-    </header>
+    </div>
 
-    <main class="main-content">
+    <div class="main-content">
         <div class="container">
             <div class="info-card">
-                <div class="card-title">系统信息</div>
-                <div class="note-box">
-                    <strong>代理状态：</strong>${noteshow}
+                <div class="card-title">📋 用户信息</div>
+                <div class="user-info-grid">
+                    <div class="user-info-item">
+                        <div class="info-label">UUID</div>
+                        <div class="info-value">${userID}</div>
+                        <button class="btn btn-sm btn-primary" onclick="copyToClipboard('${userID}')">
+                            📋 复制
+                        </button>
+                    </div>
+                    
+                    <div class="user-info-item">
+                        <div class="info-label">当前域名</div>
+                        <div class="info-value">${hostName}</div>
+                        <button class="btn btn-sm btn-info" onclick="copyToClipboard('${hostName}')">
+                            🌐 复制
+                        </button>
+                    </div>
+                    
+                    <div class="user-info-item">
+                        <div class="info-label">代理状态</div>
+                        <div class="info-value status-text">${noteshow}</div>
+                    </div>
                 </div>
             </div>
 
             ${hostName.includes("workers.dev") ? `
             <div class="info-card">
-                <div class="card-title">🌐 CF-workers 节点配置</div>
+                <div class="card-title">🌐 workers域节点配置</div>
                 
                 <div class="config-section">
-                    <h3>1. 非TLS节点</h3>
+                    <h3>非TLS节点</h3>
                     <div class="config-item">
                         <h4>特点：关闭TLS加密，无视域名阻断</h4>
                         <div class="config-link">${w\u0076\u006c\u0065\u0073\u0073ws}</div>
@@ -1698,38 +1684,13 @@ function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
                             <li><strong>伪装域名：</strong>${hostName}</li>
                             <li><strong>路径：</strong>/?ed=2560</li>
                             <li><strong>TLS：</strong>关闭</li>
-            </ul>
-                    </div>
-                </div>
-
-                <div class="config-section">
-                    <h3>2. TLS节点</h3>
-                    <div class="config-item">
-                        <h4>特点：启用TLS加密，支持分片功能防止域名阻断</h4>
-                        <div class="config-link">${p\u0076\u006c\u0065\u0073\u0073wstls}</div>
-                        <button class="btn btn-success" onclick="copyToClipboard('${p\u0076\u006c\u0065\u0073\u0073wstls}')">
-                            🔒 复制TLS链接
-                        </button>
-                    </div>
-                    
-                    <div class="param-list">
-                        <h4>客户端参数：</h4>
-                        <ul>
-                            <li><strong>地址：</strong>自定义域名、优选域名、优选IP或反代IP</li>
-                            <li><strong>端口：</strong>443、8443、2053、2083、2087、2096 (HTTPS端口)</li>
-                            <li><strong>UUID：</strong>${userID}</li>
-                            <li><strong>传输协议：</strong>ws 或 websocket</li>
-                            <li><strong>伪装域名：</strong>${hostName}</li>
-                            <li><strong>路径：</strong>/?ed=2560</li>
-                            <li><strong>TLS：</strong>开启</li>
-                            <li><strong>跳过证书验证：</strong>false</li>
-			</ul>
+                        </ul>
                     </div>
                 </div>
             </div>
             ` : `
             <div class="info-card">
-                <div class="card-title">🌐 CF-pages/自定义域 节点配置</div>
+                <div class="card-title">🌐 自定义域节点配置</div>
                 
                 <div class="config-section">
                     <h3>TLS节点配置</h3>
@@ -1764,121 +1725,68 @@ function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
                 <div class="note-box">
                     <strong>注意事项：</strong><br>
                     ${hostName.includes("workers.dev") ? 
-                    '1. 默认每个订阅链接包含TLS+非TLS共13个端口节点<br>2. 当前workers域名作为订阅链接，需通过代理进行订阅更新<br>3. 如使用的客户端不支持分片功能，则TLS节点不可用' :
-                    '以下订阅链接仅包含6个TLS端口节点'
+                    '1. 当前订阅链接仅包含7个非TLS端口节点<br>2. 当前workers域名作为订阅链接，需通过代理进行订阅更新<br>3. 非TLS节点适合在workers.dev域名下使用' :
+                    '1. 当前订阅链接仅包含6个TLS端口节点<br>2. 自定义域名下TLS节点更稳定可靠<br>3. 如使用的客户端不支持分片功能，则TLS节点不可用'
                     }
                 </div>
 
-                <div class="subscription-grid">
-                    <div class="subscription-card">
-                        <div class="subscription-icon">📦</div>
-                        <div class="subscription-content">
-                            <h3>聚合通用分享链接</h3>
-                            <p>可直接导入客户端使用</p>
-                            <button class="btn btn-primary" onclick="copyToClipboard('${hostName.includes("workers.dev") ? wk\u0076\u006c\u0065\u0073\u0073share : pg\u0076\u006c\u0065\u0073\u0073share}')">
-                                📋 复制分享链接
-                            </button>
-                        </div>
+                <div class="subscription-links">
+                    <div class="link-section">
+                        <h3>📦 聚合通用分享链接</h3>
+                        <p>可直接导入客户端使用</p>
+                        <button class="btn btn-primary" onclick="copyToClipboard('${hostName.includes("workers.dev") ? wk\u0076\u006c\u0065\u0073\u0073share : pg\u0076\u006c\u0065\u0073\u0073share}')">
+                            📋 复制分享链接
+                        </button>
                     </div>
 
-                    <div class="subscription-card">
-                        <div class="subscription-icon">🔗</div>
-                        <div class="subscription-content">
-                            <h3>聚合通用订阅链接</h3>
-                            <p>订阅地址，支持自动更新</p>
-                            <div class="link-display">${hostName.includes("workers.dev") ? ty : pty}</div>
-                            <button class="btn btn-info" onclick="copyToClipboard('${hostName.includes("workers.dev") ? ty : pty}')">
-                                🔗 复制订阅链接
-                            </button>
-                        </div>
+                    <div class="link-section">
+                        <h3>🔗 聚合通用订阅链接</h3>
+                        <p>订阅地址，支持自动更新</p>
+                        <div class="link-display">${hostName.includes("workers.dev") ? ty : pty}</div>
+                        <button class="btn btn-info" onclick="copyToClipboard('${hostName.includes("workers.dev") ? ty : pty}')">
+                            🔗 复制订阅链接
+                        </button>
                     </div>
 
-                    <div class="subscription-card">
-                        <div class="subscription-icon">⚡</div>
-                        <div class="subscription-content">
-                            <h3>Clash-meta 订阅链接</h3>
-                            <p>Clash配置，支持规则分流</p>
-                            <div class="link-display">${hostName.includes("workers.dev") ? cl : pcl}</div>
-                            <button class="btn btn-warning" onclick="copyToClipboard('${hostName.includes("workers.dev") ? cl : pcl}')">
-                                 ⚡ 复制Clash链接
-                            </button>
-        </div>
-    </div>
+                    <div class="link-section">
+                        <h3>⚡ Clash-meta 订阅链接</h3>
+                        <p>Clash配置，支持规则分流</p>
+                        <div class="link-display">${hostName.includes("workers.dev") ? cl : pcl}</div>
+                        <button class="btn btn-warning" onclick="copyToClipboard('${hostName.includes("workers.dev") ? cl : pcl}')">
+                            ⚡ 复制Clash链接
+                        </button>
+                    </div>
 
-                    <div class="subscription-card">
-                        <div class="subscription-icon">📱</div>
-                        <div class="subscription-content">
-                            <h3>Sing-box 订阅链接</h3>
-                            <p>Sing-box配置，多平台支持</p>
-                            <div class="link-display">${hostName.includes("workers.dev") ? sb : psb}</div>
-                            <button class="btn btn-success" onclick="copyToClipboard('${hostName.includes("workers.dev") ? sb : psb}')">
-                                📱 复制Sing-box链接
-                            </button>
-</div>
+                    <div class="link-section">
+                        <h3>📱 Sing-box 订阅链接</h3>
+                        <p>Sing-box配置，多平台支持</p>
+                        <div class="link-display">${hostName.includes("workers.dev") ? sb : psb}</div>
+                        <button class="btn btn-success" onclick="copyToClipboard('${hostName.includes("workers.dev") ? sb : psb}')">
+                            📱 复制Sing-box链接
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-
-    <div id="copyFeedback" class="copy-feedback"></div>
+    </div>
 
     <script>
         function copyToClipboard(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showCopyFeedback('复制成功！', 'success');
-                }).catch(() => {
-                    fallbackCopyToClipboard(text);
-                });
-            } else {
-                fallbackCopyToClipboard(text);
-            }
-        }
-        
-        function fallbackCopyToClipboard(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showCopyFeedback('复制成功！', 'success');
-            } catch (err) {
-                showCopyFeedback('复制失败，请手动复制', 'error');
-            }
-            
-            document.body.removeChild(textArea);
-        }
-        
-        function showCopyFeedback(message, type) {
-            const feedback = document.getElementById('copyFeedback');
-            feedback.textContent = message;
-            feedback.className = \`copy-feedback \${type} show\`;
-            
-            setTimeout(() => {
-                feedback.classList.remove('show');
-            }, 2000);
-        }
-        
-        // 页面加载完成后的动画效果
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.info-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
+            navigator.clipboard.writeText(text).then(function() {
+                // 创建临时提示
+                const notification = document.createElement('div');
+                notification.textContent = '已复制到剪贴板！';
+                notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #28a745; color: white; padding: 10px 20px; border-radius: 5px; z-index: 1000; font-size: 14px;';
+                document.body.appendChild(notification);
+                
                 setTimeout(() => {
-                    card.style.transition = 'all 0.6s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 200);
+                    notification.remove();
+                }, 2000);
+            }).catch(function(err) {
+                console.error('复制失败: ', err);
+                alert('复制失败，请手动复制');
             });
-        });
+        }
     </script>
 </body>
 </html>`;
@@ -1887,12 +1795,18 @@ function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
 }
 
 function gettyConfig(userID, hostName) {
-	const \u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);
-		return `${\u0076\u006c\u0065\u0073\u0073share}`
-	}
+	// 根据域名类型生成不同的聚合链接
+	const \u0076\u006c\u0065\u0073\u0073share = hostName.includes("workers.dev") ? 
+		btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}`) :
+		btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);
+	return `${\u0076\u006c\u0065\u0073\u0073share}`
+}
 
 function getclConfig(userID, hostName) {
-return `
+	// 根据域名类型生成不同的Clash配置
+	const isWorkersDev = hostName.includes("workers.dev");
+	
+	return `
 port: 7890
 allow-lan: true
 mode: rule
@@ -1922,6 +1836,7 @@ dns:
       - 240.0.0.0/4
 
 proxies:
+${isWorkersDev ? `
 - name: CF_V1_${IP1}_${PT1}
   type: \u0076\u006c\u0065\u0073\u0073
   server: ${IP1.replace(/[\[\]]/g, '')}
@@ -2008,12 +1923,11 @@ proxies:
   udp: false
   tls: false
   network: ws
-  servername: ${hostName}
   ws-opts:
     path: "/?ed=2560"
     headers:
       Host: ${hostName}
-
+` : `
 - name: CF_V8_${IP8}_${PT8}
   type: \u0076\u006c\u0065\u0073\u0073
   server: ${IP8.replace(/[\[\]]/g, '')}
@@ -2097,6 +2011,7 @@ proxies:
     path: "/?ed=2560"
     headers:
       Host: ${hostName}
+`}
 
 proxy-groups:
 - name: 负载均衡
@@ -2104,6 +2019,7 @@ proxy-groups:
   url: http://www.gstatic.com/generate_204
   interval: 300
   proxies:
+${isWorkersDev ? `
     - CF_V1_${IP1}_${PT1}
     - CF_V2_${IP2}_${PT2}
     - CF_V3_${IP3}_${PT3}
@@ -2111,12 +2027,14 @@ proxy-groups:
     - CF_V5_${IP5}_${PT5}
     - CF_V6_${IP6}_${PT6}
     - CF_V7_${IP7}_${PT7}
+` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
+`}
 
 - name: 自动选择
   type: url-test
@@ -2124,6 +2042,7 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
+${isWorkersDev ? `
     - CF_V1_${IP1}_${PT1}
     - CF_V2_${IP2}_${PT2}
     - CF_V3_${IP3}_${PT3}
@@ -2131,12 +2050,14 @@ proxy-groups:
     - CF_V5_${IP5}_${PT5}
     - CF_V6_${IP6}_${PT6}
     - CF_V7_${IP7}_${PT7}
+` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
+`}
 
 - name: 🌍选择代理
   type: select
@@ -2144,6 +2065,7 @@ proxy-groups:
     - 负载均衡
     - 自动选择
     - DIRECT
+${isWorkersDev ? `
     - CF_V1_${IP1}_${PT1}
     - CF_V2_${IP2}_${PT2}
     - CF_V3_${IP3}_${PT3}
@@ -2151,12 +2073,14 @@ proxy-groups:
     - CF_V5_${IP5}_${PT5}
     - CF_V6_${IP6}_${PT6}
     - CF_V7_${IP7}_${PT7}
+` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
+`}
 
 rules:
   - GEOIP,LAN,DIRECT
@@ -2662,12 +2586,18 @@ return `{
 }
 
 function getptyConfig(userID, hostName) {
-	const \u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);	
-		return `${\u0076\u006c\u0065\u0073\u0073share}`
-	}
+	// 根据域名类型生成不同的聚合链接
+	const \u0076\u006c\u0065\u0073\u0073share = hostName.includes("workers.dev") ? 
+		btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}`) :
+		btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);	
+	return `${\u0076\u006c\u0065\u0073\u0073share}`
+}
 	
 function getpclConfig(userID, hostName) {
-return `
+	// 根据域名类型生成不同的Clash配置
+	const isWorkersDev = hostName.includes("workers.dev");
+	
+	return `
 port: 7890
 allow-lan: true
 mode: rule
@@ -2697,6 +2627,98 @@ dns:
       - 240.0.0.0/4
 
 proxies:
+${isWorkersDev ? `
+- name: CF_V1_${IP1}_${PT1}
+  type: \u0076\u006c\u0065\u0073\u0073
+  server: ${IP1.replace(/[\[\]]/g, '')}
+  port: ${PT1}
+  uuid: ${userID}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+
+- name: CF_V2_${IP2}_${PT2}
+  type: \u0076\u006c\u0065\u0073\u0073
+  server: ${IP2.replace(/[\[\]]/g, '')}
+  port: ${PT2}
+  uuid: ${userID}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+
+- name: CF_V3_${IP3}_${PT3}
+  type: \u0076\u006c\u0065\u0073\u0073
+  server: ${IP3.replace(/[\[\]]/g, '')}
+  port: ${PT3}
+  uuid: ${userID}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+
+- name: CF_V4_${IP4}_${PT4}
+  type: \u0076\u006c\u0065\u0073\u0073
+  server: ${IP4.replace(/[\[\]]/g, '')}
+  port: ${PT4}
+  uuid: ${userID}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+
+- name: CF_V5_${IP5}_${PT5}
+  type: \u0076\u006c\u0065\u0073\u0073
+  server: ${IP5.replace(/[\[\]]/g, '')}
+  port: ${PT5}
+  uuid: ${userID}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+
+- name: CF_V6_${IP6}_${PT6}
+  type: \u0076\u006c\u0065\u0073\u0073
+  server: ${IP6.replace(/[\[\]]/g, '')}
+  port: ${PT6}
+  uuid: ${userID}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+
+- name: CF_V7_${IP7}_${PT7}
+  type: \u0076\u006c\u0065\u0073\u0073
+  server: ${IP7.replace(/[\[\]]/g, '')}
+  port: ${PT7}
+  uuid: ${userID}
+  udp: false
+  tls: false
+  network: ws
+  ws-opts:
+    path: "/?ed=2560"
+    headers:
+      Host: ${hostName}
+` : `
 - name: CF_V8_${IP8}_${PT8}
   type: \u0076\u006c\u0065\u0073\u0073
   server: ${IP8.replace(/[\[\]]/g, '')}
@@ -2780,6 +2802,7 @@ proxies:
     path: "/?ed=2560"
     headers:
       Host: ${hostName}
+`}
 
 proxy-groups:
 - name: 负载均衡
@@ -2787,12 +2810,22 @@ proxy-groups:
   url: http://www.gstatic.com/generate_204
   interval: 300
   proxies:
+${isWorkersDev ? `
+    - CF_V1_${IP1}_${PT1}
+    - CF_V2_${IP2}_${PT2}
+    - CF_V3_${IP3}_${PT3}
+    - CF_V4_${IP4}_${PT4}
+    - CF_V5_${IP5}_${PT5}
+    - CF_V6_${IP6}_${PT6}
+    - CF_V7_${IP7}_${PT7}
+` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
+`}
 
 - name: 自动选择
   type: url-test
@@ -2800,12 +2833,22 @@ proxy-groups:
   interval: 300
   tolerance: 50
   proxies:
+${isWorkersDev ? `
+    - CF_V1_${IP1}_${PT1}
+    - CF_V2_${IP2}_${PT2}
+    - CF_V3_${IP3}_${PT3}
+    - CF_V4_${IP4}_${PT4}
+    - CF_V5_${IP5}_${PT5}
+    - CF_V6_${IP6}_${PT6}
+    - CF_V7_${IP7}_${PT7}
+` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
+`}
 
 - name: 🌍选择代理
   type: select
@@ -2813,12 +2856,22 @@ proxy-groups:
     - 负载均衡
     - 自动选择
     - DIRECT
+${isWorkersDev ? `
+    - CF_V1_${IP1}_${PT1}
+    - CF_V2_${IP2}_${PT2}
+    - CF_V3_${IP3}_${PT3}
+    - CF_V4_${IP4}_${PT4}
+    - CF_V5_${IP5}_${PT5}
+    - CF_V6_${IP6}_${PT6}
+    - CF_V7_${IP7}_${PT7}
+` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
+`}
 
 rules:
   - GEOIP,LAN,DIRECT
