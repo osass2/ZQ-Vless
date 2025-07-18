@@ -119,6 +119,16 @@ export default {
       if (!upgradeHeader || upgradeHeader !== "websocket") {
         const url = new URL(request.url);
         switch (url.pathname) {
+          case "/": {
+            const cfInfo = JSON.stringify(request.cf, null, 2);
+            const inputPage = getInputPage(request.headers.get("Host"), cfInfo);
+            return new Response(inputPage, {
+              status: 200,
+              headers: {
+                "Content-Type": "text/html;charset=utf-8",
+              },
+            });
+          }
           case `/${userID}`: {
             const \u0076\u006c\u0065\u0073\u0073Config = get\u0076\u006c\u0065\u0073\u0073Config(userID, request.headers.get("Host"));
             return new Response(`${\u0076\u006c\u0065\u0073\u0073Config}`, {
@@ -186,360 +196,10 @@ export default {
             // return new Response('Not found', { status: 404 });
             // For any other path, reverse proxy to 'ramdom website' and return the original response, caching it in the process
             if (cn_hostnames.includes('')) {
-            // 创建美观的HTML页面替代简单的JSON响应
-            const htmlContent = `
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FP2PPQ5VGH"></script>
-    <script>
-     window.dataLayer = window.dataLayer || [];
-     function gtag(){dataLayer.push(arguments);}
-     gtag('js', new Date());
-
-     gtag('config', 'G-FP2PPQ5VGH');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZQ-Vless 代理服务</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' rx='6' fill='%2336d1c4'/%3E%3Ctext x='7' y='15' style='font-size:14px;fill:%23fff;font-weight:bold;'%3EZQ%3C/text%3E%3Ctext x='5' y='29' style='font-size:9px;fill:%23fff;font-weight:bold;'%3EVless%3C/text%3E%3C/svg%3E">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-        }
-        
-        .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-        }
-        
-        .subtitle {
-            color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .info-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: left;
-        }
-        
-        .info-card h3 {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .info-card p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        
-        .usage-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            border-left: 4px solid #667eea;
-        }
-        
-        .usage-item strong {
-            color: #667eea;
-        }
-        
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            background: #28a745;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        .footer {
-            margin-top: 30px;
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
-        .cf-info {
-            background: #e3f2fd;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-        }
-        
-        .cf-info h4 {
-            color: #1976d2;
-            margin-bottom: 10px;
-        }
-        
-        .cf-info pre {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-size: 0.8rem;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .uuid-input-section {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 30px 0;
-            color: white;
-        }
-        
-        .uuid-input-section h3 {
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-        
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .uuid-input {
-            flex: 1;
-            min-width: 300px;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-        }
-        
-        .uuid-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
-        }
-        
-        .submit-btn {
-            padding: 12px 25px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-        
-        .submit-btn:hover {
-            background: #218838;
-            transform: translateY(-2px);
-        }
-        
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-        
-        .error-message {
-            color: #ff6b6b;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-        }
-        
-        .success-message {
-            color: #51cf66;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-        }
-        
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .logo {
-                font-size: 2rem;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .input-group {
-                flex-direction: column;
-            }
-            
-            .uuid-input {
-                min-width: auto;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="logo">🚀 ZQ-Vless 代理服务</div>
-        <p class="subtitle">高性能、安全的网络代理解决方案</p>
-        
-        <div class="status-indicator"></div>
-        <span style="color: #28a745; font-weight: bold;">服务运行正常</span>
-        
-        <div class="info-grid">
-            <div class="info-card">
-                <h3>🌐 服务状态</h3>
-                <p>Cloudflare Workers 正常运行</p>
-            </div>
-            <div class="info-card">
-                <h3>🔒 安全连接</h3>
-                <p>支持 TLS 加密传输</p>
-            </div>
-            <div class="info-card">
-                <h3>⚡ 高性能</h3>
-                <p>基于 Cloudflare 全球网络</p>
-            </div>
-            <div class="info-card">
-                <h3>📱 多平台</h3>
-                <p>支持各种客户端应用</p>
-            </div>
-        </div>
-        
-        <div class="uuid-input-section">
-            <h3>🔑 输入您的 UUID</h3>
-            <div class="input-group">
-                <input type="text" id="uuidInput" class="uuid-input" placeholder="请输入您的 UUID" maxlength="36">
-                <button onclick="submitUUID()" class="submit-btn">获取配置</button>
-            </div>
-            <div id="errorMessage" class="error-message"></div>
-            <div id="successMessage" class="success-message"></div>
-            <div class="footer" style="margin-top:30px;text-align:center;color:#7CFC00;font-size:0.95rem;">
-               <span>项目地址：<a href="https://github.com/BAYUEQI/ZQ-Vless" target="_blank" style="color:#FF7F50;text-decoration:underline;">https://github.com/BAYUEQI/ZQ-Vless</a></span>
-            </div>
-        </div>
-        
-        
-        <div class="cf-info">
-            <h4>🔧 系统信息</h4>
-            <pre>${JSON.stringify(request.cf, null, 2)}</pre>
-        </div>
-    </div>
-    
-    <script>
-        function submitUUID() {
-            const uuidInput = document.getElementById('uuidInput');
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
-            
-            // 清除之前的消息
-            errorMessage.style.display = 'none';
-            successMessage.style.display = 'none';
-            
-            const uuid = uuidInput.value.trim();
-            
-            // 验证UUID格式
-            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-            
-            if (!uuid) {
-                showError('请输入UUID');
-                return;
-            }
-            
-            if (!uuidRegex.test(uuid)) {
-                showError('UUID格式不正确，请检查输入');
-                return;
-            }
-            
-            // 跳转到UUID对应的配置页面
-            const currentUrl = window.location.origin;
-            const configUrl = currentUrl + '/' + uuid;
-            
-            showSuccess('正在跳转到配置页面...');
-            
-            // 延迟跳转，让用户看到成功消息
-            setTimeout(() => {
-                window.location.href = configUrl;
-            }, 1000);
-        }
-        
-        function showError(message) {
-            const errorMessage = document.getElementById('errorMessage');
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-        }
-        
-        function showSuccess(message) {
-            const successMessage = document.getElementById('successMessage');
-            successMessage.textContent = message;
-            successMessage.style.display = 'block';
-        }
-        
-        // 支持回车键提交
-        document.getElementById('uuidInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitUUID();
-            }
-        });
-        
-        // 页面加载时聚焦到输入框
-        window.addEventListener('load', function() {
-            document.getElementById('uuidInput').focus();
-        });
-    </script>
-</body>
-</html>`;
-            
-            return new Response(htmlContent, {
+            return new Response(JSON.stringify(request.cf, null, 4), {
               status: 200,
               headers: {
-                "Content-Type": "text/html;charset=utf-8",
+                "Content-Type": "application/json;charset=utf-8",
               },
             });
             }
@@ -1197,7 +857,7 @@ async function handleUDPOutBound(webSocket, cloudflareResponseHeader, log) {
 function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
   const w\u0076\u006c\u0065\u0073\u0073ws = `\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${CDNIP}:8880?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${hostName}`;
   const p\u0076\u006c\u0065\u0073\u0073wstls = `\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${CDNIP}:8443?encryption=none&security=tls&type=ws&host=${hostName}&sni=${hostName}&fp=random&path=%2F%3Fed%3D2560#${hostName}`;
-  const note = `ProxyIP全局运行中：${proxyIP}:${proxyPort}`;
+  const note = `项目地址：https://github.com/BAYUEQI/ZQ-Vless\nProxyIP全局运行中：${proxyIP}:${proxyPort}`;
   const ty = `https://${hostName}/${userID}/ty`
   const cl = `https://${hostName}/${userID}/cl`
   const sb = `https://${hostName}/${userID}/sb`
@@ -1205,608 +865,319 @@ function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
   const pcl = `https://${hostName}/${userID}/pcl`
   const psb = `https://${hostName}/${userID}/psb`
 
-  // 根据域名类型生成不同的聚合链接
-  const wk\u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}`);
+  const wk\u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);
+
 
   const pg\u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);	
+
 	
   const noteshow = note.replace(/\n/g, '<br>');
-  
-  // 创建现代化的HTML页面
-  const htmlContent = `
-<!DOCTYPE html>
-<html lang="zh-CN">
+  const displayHtml = `
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZQ-Vless 配置中心 - ${hostName}</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='32' height='32' rx='6' fill='%2336d1c4'/%3E%3Ctext x='7' y='15' style='font-size:14px;fill:%23fff;font-weight:bold;'%3EZQ%3C/text%3E%3Ctext x='5' y='29' style='font-size:9px;fill:%23fff;font-weight:bold;'%3EVless%3C/text%3E%3C/svg%3E">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        
-        .main-content {
-            padding: 40px 0;
-        }
-        
-        .info-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .card-title::before {
-            content: '';
-            width: 4px;
-            height: 24px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 2px;
-        }
-        
-        .config-section {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
-        }
-        
-        .config-item {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 15px 0;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .config-item h4 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-        
-        .config-link {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            word-break: break-all;
-            margin: 10px 0;
-            color: #495057;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            margin: 5px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-        }
-        
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-        }
-        
-        .btn-info {
-            background: linear-gradient(135deg, #17a2b8, #138496);
-            color: white;
-        }
-        
-        .btn-info:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(23, 162, 184, 0.4);
-        }
-        
-        .btn-warning {
-            background: linear-gradient(135deg, #ffc107, #e0a800);
-            color: #212529;
-        }
-        
-        .btn-warning:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
-        }
-        
-        .param-list {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-        }
-        
-        .param-list h4 {
-            color: #495057;
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
-        
-        .param-list ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .param-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #e9ecef;
-            color: #6c757d;
-        }
-        
-        .param-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .param-list strong {
-            color: #495057;
-        }
-        
-        .subscription-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .subscription-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            border-left: 4px solid #667eea;
-            transition: transform 0.3s ease;
-        }
-        
-        .subscription-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .subscription-icon {
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-        
-        .subscription-content h3 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .subscription-content p {
-            color: #666;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-        
-        .user-info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .user-info-item {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            border-left: 4px solid #667eea;
-            transition: all 0.3s ease;
-        }
-        
-        .user-info-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .info-label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .info-value {
-            font-size: 1rem;
-            color: #333;
-            margin-bottom: 12px;
-            word-break: break-all;
-            font-family: 'Courier New', monospace;
-            background: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #e9ecef;
-        }
-        
-        .status-text {
-            color: #28a745;
-            font-weight: 500;
-        }
-        
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 0.8rem;
-        }
-        
-        .subscription-links {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .link-section {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            border-left: 4px solid #667eea;
-            transition: all 0.3s ease;
-        }
-        
-        .link-section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .link-section h3 {
-            color: #333;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .link-section p {
-            color: #666;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-        
-        .link-display {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            word-break: break-all;
-            margin: 10px 0;
-            color: #495057;
-        }
-        
-        .note-box {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px 0;
-            color: #856404;
-        }
-        
-        .footer {
-            margin-top: 30px;
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 15px;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .user-info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .subscription-links {
-                gap: 15px;
-            }
-            
-            .link-display {
-                font-size: 0.7rem;
-            }
-        }
+.limited-width {
+    max-width: 200px;
+    overflow: auto;
+    word-wrap: break-word;
+}
 </style>
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="6" fill="#36d1c4"/><text x="16" y="18" text-anchor="middle" style="font-size:14px;fill:#fff;font-weight:bold;">ZQ</text><text x="16" y="27" text-anchor="middle" style="font-size:9px;fill:#fff;font-weight:bold;">Vless</text></svg>'>
 </head>
+<script>
+function copyToClipboard(text) {
+  const input = document.createElement('textarea');
+  input.style.position = 'fixed';
+  input.style.opacity = 0;
+  input.value = text;
+  document.body.appendChild(input);
+  input.select();
+  document.execCommand('Copy');
+  document.body.removeChild(input);
+  alert('已复制到剪贴板');
+}
+</script>
+`;
+if (hostName.includes("workers.dev")) {
+return `
+<br>
+<br>
+${displayHtml}
 <body>
-    <div class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">🚀 ZQ-Vless 配置中心</div>
-                <div class="status-badge">
-                    <div class="status-dot"></div>
-                    服务运行正常
-                </div>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Cloudflare-workers/pages-\u0076\u006c\u0065\u0073\u0073代理脚本 V25.5.4</h1>
+	    <hr>
+            <p>${noteshow}</p>
+            <hr>
+	    <hr>
+	    <hr>
+            <br>
+            <br>
+            <h3>1：CF-workers-\u0076\u006c\u0065\u0073\u0073+ws节点</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>节点特色：</th>
+						<th>单节点链接如下：</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="limited-width">关闭了TLS加密，无视域名阻断</td>
+						<td class="limited-width">${w\u0076\u006c\u0065\u0073\u0073ws}</td>
+						<td><button class="btn btn-primary" onclick="copyToClipboard('${w\u0076\u006c\u0065\u0073\u0073ws}')">点击复制链接</button></td>
+					</tr>
+				</tbody>
+			</table>
+            <h5>客户端参数如下：</h5>
+            <ul>
+                <li>客户端地址(address)：自定义的域名 或者 优选域名 或者 优选IP 或者 反代IP</li>
+                <li>端口(port)：7个http端口可任意选择(80、8080、8880、2052、2082、2086、2095)，或反代IP对应端口</li>
+                <li>用户ID(uuid)：${userID}</li>
+                <li>传输协议(network)：ws 或者 websocket</li>
+                <li>伪装域名(host)：${hostName}</li>
+                <li>路径(path)：/?ed=2560</li>
+		<li>传输安全(TLS)：关闭</li>
+            </ul>
+            <hr>
+			<hr>
+			<hr>
+            <br>
+            <br>
+            <h3>2：CF-workers-\u0076\u006c\u0065\u0073\u0073+ws+tls节点</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>节点特色：</th>
+						<th>单节点链接如下：</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="limited-width">启用了TLS加密，<br>如果客户端支持分片(Fragment)功能，建议开启，防止域名阻断</td>
+						<td class="limited-width">${p\u0076\u006c\u0065\u0073\u0073wstls}</td>	
+						<td><button class="btn btn-primary" onclick="copyToClipboard('${p\u0076\u006c\u0065\u0073\u0073wstls}')">点击复制链接</button></td>
+					</tr>
+				</tbody>
+			</table>
+            <h5>客户端参数如下：</h5>
+            <ul>
+                <li>客户端地址(address)：自定义的域名 或者 优选域名 或者 优选IP 或者 反代IP</li>
+                <li>端口(port)：6个https端口可任意选择(443、8443、2053、2083、2087、2096)，或反代IP对应端口</li>
+                <li>用户ID(uuid)：${userID}</li>
+                <li>传输协议(network)：ws 或者 websocket</li>
+                <li>伪装域名(host)：${hostName}</li>
+                <li>路径(path)：/?ed=2560</li>
+                <li>传输安全(TLS)：开启</li>
+                <li>跳过证书验证(allowlnsecure)：false</li>
+			</ul>
+			<hr>
+			<hr>
+			<hr>
+			<br>	
+			<br>
+			<h3>3：聚合通用、Clash-meta、Sing-box订阅链接如下：</h3>
+			<hr>
+			<p>注意：<br>1、默认每个订阅链接包含TLS+非TLS共13个端口节点<br>2、当前workers域名作为订阅链接，需通过代理进行订阅更新<br>3、如使用的客户端不支持分片功能，则TLS节点不可用</p>
+			<hr>
+
+
+			<table class="table">
+					<thead>
+						<tr>
+							<th>聚合通用分享链接 (可直接导入客户端)：</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><button class="btn btn-primary" onclick="copyToClipboard('${wk\u0076\u006c\u0065\u0073\u0073share}')">点击复制链接</button></td>
+						</tr>
+					</tbody>
+				</table>
+
+
+   
+			<table class="table">
+					<thead>
+						<tr>
+							<th>聚合通用订阅链接：</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="limited-width">${ty}</td>	
+							<td><button class="btn btn-primary" onclick="copyToClipboard('${ty}')">点击复制链接</button></td>
+						</tr>
+					</tbody>
+				</table>	
+
+				<table class="table">
+						<thead>
+							<tr>
+								<th>Clash-meta订阅链接：</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="limited-width">${cl}</td>	
+								<td><button class="btn btn-primary" onclick="copyToClipboard('${cl}')">点击复制链接</button></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<table class="table">
+					<thead>
+						<tr>
+							<th>Sing-box订阅链接：</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="limited-width">${sb}</td>	
+							<td><button class="btn btn-primary" onclick="copyToClipboard('${sb}')">点击复制链接</button></td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<br>
         </div>
     </div>
-
-    <div class="main-content">
-        <div class="container">
-            <div class="info-card">
-                <div class="card-title">📋 用户信息</div>
-                <div class="user-info-grid">
-                    <div class="user-info-item">
-                        <div class="info-label">UUID</div>
-                        <div class="info-value">${userID}</div>
-                        <button class="btn btn-sm btn-primary" onclick="copyToClipboard('${userID}')">
-                            📋 复制
-                        </button>
-                    </div>
-                    
-                    <div class="user-info-item">
-                        <div class="info-label">当前域名</div>
-                        <div class="info-value">${hostName}</div>
-                        <button class="btn btn-sm btn-info" onclick="copyToClipboard('${hostName}')">
-                            🌐 复制
-                        </button>
-                    </div>
-                    
-                    <div class="user-info-item">
-                        <div class="info-label">代理状态</div>
-                        <div class="info-value status-text">${noteshow}</div>
-                    </div>
-                </div>
-            </div>
-
-            ${hostName.includes("workers.dev") ? `
-            <div class="info-card">
-                <div class="card-title">🌐 workers域节点配置</div>
-                
-                <div class="config-section">
-                    <h3>非TLS节点</h3>
-                    <div class="config-item">
-                        <h4>特点：关闭TLS加密，无视域名阻断</h4>
-                        <div class="config-link">${w\u0076\u006c\u0065\u0073\u0073ws}</div>
-                        <button class="btn btn-primary" onclick="copyToClipboard('${w\u0076\u006c\u0065\u0073\u0073ws}')">
-                            📋 复制链接
-                        </button>
-                    </div>
-                    
-                    <div class="param-list">
-                        <h4>客户端参数：</h4>
-                        <ul>
-                            <li><strong>地址：</strong>自定义域名、优选域名、优选IP或反代IP</li>
-                            <li><strong>端口：</strong>80、8080、8880、2052、2082、2086、2095 (HTTP端口)</li>
-                            <li><strong>UUID：</strong>${userID}</li>
-                            <li><strong>传输协议：</strong>ws 或 websocket</li>
-                            <li><strong>伪装域名：</strong>${hostName}</li>
-                            <li><strong>路径：</strong>/?ed=2560</li>
-                            <li><strong>TLS：</strong>关闭</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            ` : `
-            <div class="info-card">
-                <div class="card-title">🌐 自定义域节点配置</div>
-                
-                <div class="config-section">
-                    <h3>TLS节点配置</h3>
-                    <div class="config-item">
-                        <h4>特点：启用TLS加密，支持分片功能防止域名阻断</h4>
-                        <div class="config-link">${p\u0076\u006c\u0065\u0073\u0073wstls}</div>
-                        <button class="btn btn-success" onclick="copyToClipboard('${p\u0076\u006c\u0065\u0073\u0073wstls}')">
-                            🔒 复制TLS链接
-                        </button>
-                    </div>
-                    
-                    <div class="param-list">
-                        <h4>客户端参数：</h4>
-                        <ul>
-                            <li><strong>地址：</strong>自定义域名、优选域名、优选IP或反代IP</li>
-                            <li><strong>端口：</strong>443、8443、2053、2083、2087、2096 (HTTPS端口)</li>
-                            <li><strong>UUID：</strong>${userID}</li>
-                            <li><strong>传输协议：</strong>ws 或 websocket</li>
-                            <li><strong>伪装域名：</strong>${hostName}</li>
-                            <li><strong>路径：</strong>/?ed=2560</li>
-                            <li><strong>TLS：</strong>开启</li>
-                            <li><strong>跳过证书验证：</strong>false</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            `}
-
-            <div class="info-card">
-                <div class="card-title">📋 订阅链接配置</div>
-                
-                <div class="note-box">
-                    <strong>注意事项：</strong><br>
-                    ${hostName.includes("workers.dev") ? 
-                    '1. 当前订阅链接仅包含7个非TLS端口节点<br>2. 当前workers域名作为订阅链接，需通过代理进行订阅更新<br>3. 非TLS节点适合在workers.dev域名下使用' :
-                    '1. 当前订阅链接仅包含6个TLS端口节点<br>2. 自定义域名下TLS节点更稳定可靠<br>3. 如使用的客户端不支持分片功能，则TLS节点不可用'
-                    }
-                </div>
-
-                <div class="subscription-links">
-                    <div class="link-section">
-                        <h3>📦 聚合通用分享链接</h3>
-                        <p>可直接导入客户端使用</p>
-                        <button class="btn btn-primary" onclick="copyToClipboard('${hostName.includes("workers.dev") ? wk\u0076\u006c\u0065\u0073\u0073share : pg\u0076\u006c\u0065\u0073\u0073share}')">
-                            📋 复制分享链接
-                        </button>
-                    </div>
-
-                    <div class="link-section">
-                        <h3>🔗 聚合通用订阅链接</h3>
-                        <p>订阅地址，支持自动更新</p>
-                        <div class="link-display">${hostName.includes("workers.dev") ? ty : pty}</div>
-                        <button class="btn btn-info" onclick="copyToClipboard('${hostName.includes("workers.dev") ? ty : pty}')">
-                            🔗 复制订阅链接
-                        </button>
-                    </div>
-
-                    <div class="link-section">
-                        <h3>⚡ Clash-meta 订阅链接</h3>
-                        <p>Clash配置，支持规则分流</p>
-                        <div class="link-display">${hostName.includes("workers.dev") ? cl : pcl}</div>
-                        <button class="btn btn-warning" onclick="copyToClipboard('${hostName.includes("workers.dev") ? cl : pcl}')">
-                            ⚡ 复制Clash链接
-                        </button>
-                    </div>
-
-                    <div class="link-section">
-                        <h3>📱 Sing-box 订阅链接</h3>
-                        <p>Sing-box配置，多平台支持</p>
-                        <div class="link-display">${hostName.includes("workers.dev") ? sb : psb}</div>
-                        <button class="btn btn-success" onclick="copyToClipboard('${hostName.includes("workers.dev") ? sb : psb}')">
-                            📱 复制Sing-box链接
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(function() {
-                // 创建临时提示
-                const notification = document.createElement('div');
-                notification.textContent = '已复制到剪贴板！';
-                notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #28a745; color: white; padding: 10px 20px; border-radius: 5px; z-index: 1000; font-size: 14px;';
-                document.body.appendChild(notification);
-                
-                setTimeout(() => {
-                    notification.remove();
-                }, 2000);
-            }).catch(function(err) {
-                console.error('复制失败: ', err);
-                alert('复制失败，请手动复制');
-            });
-        }
-    </script>
+</div>
 </body>
-</html>`;
+`;
+  } else {
+    return `
+<br>
+<br>
+${displayHtml}
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Cloudflare-workers/pages-\u0076\u006c\u0065\u0073\u0073代理脚本 V25.5.4</h1>
+			<hr>
+            <p>${noteshow}</p>
+            <hr>
+			<hr>
+			<hr>
+            <br>
+            <br>
+            <h3>1：CF-pages/workers/自定义域-\u0076\u006c\u0065\u0073\u0073+ws+tls节点</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>节点特色：</th>
+						<th>单节点链接如下：</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="limited-width">启用了TLS加密，<br>如果客户端支持分片(Fragment)功能，可开启，防止域名阻断</td>
+						<td class="limited-width">${p\u0076\u006c\u0065\u0073\u0073wstls}</td>
+						<td><button class="btn btn-primary" onclick="copyToClipboard('${p\u0076\u006c\u0065\u0073\u0073wstls}')">点击复制链接</button></td>
+					</tr>
+				</tbody>
+			</table>
+            <h5>客户端参数如下：</h5>
+            <ul>
+                <li>客户端地址(address)：自定义的域名 或者 优选域名 或者 优选IP 或者 反代IP</li>
+                <li>端口(port)：6个https端口可任意选择(443、8443、2053、2083、2087、2096)，或反代IP对应端口</li>
+                <li>用户ID(uuid)：${userID}</li>
+                <li>传输协议(network)：ws 或者 websocket</li>
+                <li>伪装域名(host)：${hostName}</li>
+                <li>路径(path)：/?ed=2560</li>
+                <li>传输安全(TLS)：开启</li>
+                <li>跳过证书验证(allowlnsecure)：false</li>
+			</ul>
+            <hr>
+			<hr>
+			<hr>
+            <br>
+            <br>
+			<h3>2：聚合通用、Clash-meta、Sing-box订阅链接如下：</h3>
+			<hr>
+			<p>注意：以下订阅链接仅6个TLS端口节点</p>
+			<hr>
 
-  return htmlContent;
+
+			<table class="table">
+					<thead>
+						<tr>
+							<th>聚合通用分享链接 (可直接导入客户端)：</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><button class="btn btn-primary" onclick="copyToClipboard('${pg\u0076\u006c\u0065\u0073\u0073share}')">点击复制链接</button></td>
+						</tr>
+					</tbody>
+				</table>
+
+
+
+			<table class="table">
+					<thead>
+						<tr>
+							<th>聚合通用订阅链接：</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="limited-width">${pty}</td>	
+							<td><button class="btn btn-primary" onclick="copyToClipboard('${pty}')">点击复制链接</button></td>
+						</tr>
+					</tbody>
+				</table>	
+
+				<table class="table">
+						<thead>
+							<tr>
+								<th>Clash-meta订阅链接：</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="limited-width">${pcl}</td>	
+								<td><button class="btn btn-primary" onclick="copyToClipboard('${pcl}')">点击复制链接</button></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<table class="table">
+					<thead>
+						<tr>
+							<th>Sing-box订阅链接：</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="limited-width">${psb}</td>	
+							<td><button class="btn btn-primary" onclick="copyToClipboard('${psb}')">点击复制链接</button></td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<br>
+        </div>
+    </div>
+</div>
+</body>
+`;
+  }
 }
 
 function gettyConfig(userID, hostName) {
-	// 根据域名类型生成不同的聚合链接
-	const \u0076\u006c\u0065\u0073\u0073share = hostName.includes("workers.dev") ? 
-		btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}`) :
-		btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);
-	return `${\u0076\u006c\u0065\u0073\u0073share}`
-}
+	const \u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);
+		return `${\u0076\u006c\u0065\u0073\u0073share}`
+	}
 
 function getclConfig(userID, hostName) {
-	// 根据域名类型生成不同的Clash配置
-	const isWorkersDev = hostName.includes("workers.dev");
-	
-	return `
+return `
 port: 7890
 allow-lan: true
 mode: rule
@@ -1836,7 +1207,6 @@ dns:
       - 240.0.0.0/4
 
 proxies:
-${isWorkersDev ? `
 - name: CF_V1_${IP1}_${PT1}
   type: \u0076\u006c\u0065\u0073\u0073
   server: ${IP1.replace(/[\[\]]/g, '')}
@@ -1923,11 +1293,12 @@ ${isWorkersDev ? `
   udp: false
   tls: false
   network: ws
+  servername: ${hostName}
   ws-opts:
     path: "/?ed=2560"
     headers:
       Host: ${hostName}
-` : `
+
 - name: CF_V8_${IP8}_${PT8}
   type: \u0076\u006c\u0065\u0073\u0073
   server: ${IP8.replace(/[\[\]]/g, '')}
@@ -2011,7 +1382,6 @@ ${isWorkersDev ? `
     path: "/?ed=2560"
     headers:
       Host: ${hostName}
-`}
 
 proxy-groups:
 - name: 负载均衡
@@ -2019,7 +1389,6 @@ proxy-groups:
   url: http://www.gstatic.com/generate_204
   interval: 300
   proxies:
-${isWorkersDev ? `
     - CF_V1_${IP1}_${PT1}
     - CF_V2_${IP2}_${PT2}
     - CF_V3_${IP3}_${PT3}
@@ -2027,14 +1396,12 @@ ${isWorkersDev ? `
     - CF_V5_${IP5}_${PT5}
     - CF_V6_${IP6}_${PT6}
     - CF_V7_${IP7}_${PT7}
-` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
-`}
 
 - name: 自动选择
   type: url-test
@@ -2042,7 +1409,6 @@ ${isWorkersDev ? `
   interval: 300
   tolerance: 50
   proxies:
-${isWorkersDev ? `
     - CF_V1_${IP1}_${PT1}
     - CF_V2_${IP2}_${PT2}
     - CF_V3_${IP3}_${PT3}
@@ -2050,14 +1416,12 @@ ${isWorkersDev ? `
     - CF_V5_${IP5}_${PT5}
     - CF_V6_${IP6}_${PT6}
     - CF_V7_${IP7}_${PT7}
-` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
-`}
 
 - name: 🌍选择代理
   type: select
@@ -2065,7 +1429,6 @@ ${isWorkersDev ? `
     - 负载均衡
     - 自动选择
     - DIRECT
-${isWorkersDev ? `
     - CF_V1_${IP1}_${PT1}
     - CF_V2_${IP2}_${PT2}
     - CF_V3_${IP3}_${PT3}
@@ -2073,14 +1436,12 @@ ${isWorkersDev ? `
     - CF_V5_${IP5}_${PT5}
     - CF_V6_${IP6}_${PT6}
     - CF_V7_${IP7}_${PT7}
-` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
-`}
 
 rules:
   - GEOIP,LAN,DIRECT
@@ -2586,18 +1947,12 @@ return `{
 }
 
 function getptyConfig(userID, hostName) {
-	// 根据域名类型生成不同的聚合链接
-	const \u0076\u006c\u0065\u0073\u0073share = hostName.includes("workers.dev") ? 
-		btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP1}:${PT1}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V1_${IP1}_${PT1}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP2}:${PT2}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V2_${IP2}_${PT2}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP3}:${PT3}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V3_${IP3}_${PT3}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP4}:${PT4}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V4_${IP4}_${PT4}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP5}:${PT5}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V5_${IP5}_${PT5}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP6}:${PT6}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V6_${IP6}_${PT6}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP7}:${PT7}?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V7_${IP7}_${PT7}`) :
-		btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);	
-	return `${\u0076\u006c\u0065\u0073\u0073share}`
-}
+	const \u0076\u006c\u0065\u0073\u0073share = btoa(`\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP8}:${PT8}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V8_${IP8}_${PT8}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP9}:${PT9}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V9_${IP9}_${PT9}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP10}:${PT10}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V10_${IP10}_${PT10}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP11}:${PT11}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V11_${IP11}_${PT11}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP12}:${PT12}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V12_${IP12}_${PT12}\n\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${IP13}:${PT13}?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#CF_V13_${IP13}_${PT13}`);	
+		return `${\u0076\u006c\u0065\u0073\u0073share}`
+	}
 	
 function getpclConfig(userID, hostName) {
-	// 根据域名类型生成不同的Clash配置
-	const isWorkersDev = hostName.includes("workers.dev");
-	
-	return `
+return `
 port: 7890
 allow-lan: true
 mode: rule
@@ -2627,98 +1982,6 @@ dns:
       - 240.0.0.0/4
 
 proxies:
-${isWorkersDev ? `
-- name: CF_V1_${IP1}_${PT1}
-  type: \u0076\u006c\u0065\u0073\u0073
-  server: ${IP1.replace(/[\[\]]/g, '')}
-  port: ${PT1}
-  uuid: ${userID}
-  udp: false
-  tls: false
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-
-- name: CF_V2_${IP2}_${PT2}
-  type: \u0076\u006c\u0065\u0073\u0073
-  server: ${IP2.replace(/[\[\]]/g, '')}
-  port: ${PT2}
-  uuid: ${userID}
-  udp: false
-  tls: false
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-
-- name: CF_V3_${IP3}_${PT3}
-  type: \u0076\u006c\u0065\u0073\u0073
-  server: ${IP3.replace(/[\[\]]/g, '')}
-  port: ${PT3}
-  uuid: ${userID}
-  udp: false
-  tls: false
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-
-- name: CF_V4_${IP4}_${PT4}
-  type: \u0076\u006c\u0065\u0073\u0073
-  server: ${IP4.replace(/[\[\]]/g, '')}
-  port: ${PT4}
-  uuid: ${userID}
-  udp: false
-  tls: false
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-
-- name: CF_V5_${IP5}_${PT5}
-  type: \u0076\u006c\u0065\u0073\u0073
-  server: ${IP5.replace(/[\[\]]/g, '')}
-  port: ${PT5}
-  uuid: ${userID}
-  udp: false
-  tls: false
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-
-- name: CF_V6_${IP6}_${PT6}
-  type: \u0076\u006c\u0065\u0073\u0073
-  server: ${IP6.replace(/[\[\]]/g, '')}
-  port: ${PT6}
-  uuid: ${userID}
-  udp: false
-  tls: false
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-
-- name: CF_V7_${IP7}_${PT7}
-  type: \u0076\u006c\u0065\u0073\u0073
-  server: ${IP7.replace(/[\[\]]/g, '')}
-  port: ${PT7}
-  uuid: ${userID}
-  udp: false
-  tls: false
-  network: ws
-  ws-opts:
-    path: "/?ed=2560"
-    headers:
-      Host: ${hostName}
-` : `
 - name: CF_V8_${IP8}_${PT8}
   type: \u0076\u006c\u0065\u0073\u0073
   server: ${IP8.replace(/[\[\]]/g, '')}
@@ -2802,7 +2065,6 @@ ${isWorkersDev ? `
     path: "/?ed=2560"
     headers:
       Host: ${hostName}
-`}
 
 proxy-groups:
 - name: 负载均衡
@@ -2810,22 +2072,12 @@ proxy-groups:
   url: http://www.gstatic.com/generate_204
   interval: 300
   proxies:
-${isWorkersDev ? `
-    - CF_V1_${IP1}_${PT1}
-    - CF_V2_${IP2}_${PT2}
-    - CF_V3_${IP3}_${PT3}
-    - CF_V4_${IP4}_${PT4}
-    - CF_V5_${IP5}_${PT5}
-    - CF_V6_${IP6}_${PT6}
-    - CF_V7_${IP7}_${PT7}
-` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
-`}
 
 - name: 自动选择
   type: url-test
@@ -2833,22 +2085,12 @@ ${isWorkersDev ? `
   interval: 300
   tolerance: 50
   proxies:
-${isWorkersDev ? `
-    - CF_V1_${IP1}_${PT1}
-    - CF_V2_${IP2}_${PT2}
-    - CF_V3_${IP3}_${PT3}
-    - CF_V4_${IP4}_${PT4}
-    - CF_V5_${IP5}_${PT5}
-    - CF_V6_${IP6}_${PT6}
-    - CF_V7_${IP7}_${PT7}
-` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
-`}
 
 - name: 🌍选择代理
   type: select
@@ -2856,22 +2098,12 @@ ${isWorkersDev ? `
     - 负载均衡
     - 自动选择
     - DIRECT
-${isWorkersDev ? `
-    - CF_V1_${IP1}_${PT1}
-    - CF_V2_${IP2}_${PT2}
-    - CF_V3_${IP3}_${PT3}
-    - CF_V4_${IP4}_${PT4}
-    - CF_V5_${IP5}_${PT5}
-    - CF_V6_${IP6}_${PT6}
-    - CF_V7_${IP7}_${PT7}
-` : `
     - CF_V8_${IP8}_${PT8}
     - CF_V9_${IP9}_${PT9}
     - CF_V10_${IP10}_${PT10}
     - CF_V11_${IP11}_${PT11}
     - CF_V12_${IP12}_${PT12}
     - CF_V13_${IP13}_${PT13}
-`}
 
 rules:
   - GEOIP,LAN,DIRECT
@@ -3242,3 +2474,111 @@ return `{
 		  }
 		}`;
 } 
+function getInputPage(hostName, cfInfo = '') {
+  return `
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZQ-Vless</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FP2PPQ5VGH"></script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'G-FP2PPQ5VGH');
+  </script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: #222;
+      font-family: 'Segoe UI', 'Arial', 'Microsoft YaHei', sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .center-box {
+      width: 100%;
+      max-width: 350px;
+      padding: 32px 24px 24px 24px;
+      box-sizing: border-box;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      text-align: left;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 18px;
+      box-sizing: border-box;
+      outline: none;
+      background: #fff;
+      color: #222;
+    }
+    input[type="text"]:focus {
+      border-color: #888;
+    }
+    button {
+      width: 100%;
+      padding: 10px 0;
+      font-size: 1rem;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #444;
+    }
+    .json-box {
+      margin-top: 32px;
+      text-align: left;
+      background: #f8f8f8;
+      padding: 12px;
+      border-radius: 6px;
+      overflow: auto;
+      font-size: 0.95em;
+      word-break: break-all;
+      max-height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="center-box">
+    <h1>ZQ-Vless</h1>
+    <form onsubmit="event.preventDefault(); var uuid = document.getElementById('uuidInput').value.trim(); if(uuid){ window.location.href='/' + uuid; }">
+      <label for="uuidInput">UUID</label>
+      <input type="text" id="uuidInput" placeholder="请输入UUID" required autocomplete="off" />
+      <button type="submit">跳转</button>
+    </form>
+    ${cfInfo ? `<div class="json-box"><b>请求信息 (JSON)</b><pre>${cfInfo}</pre></div>` : ''}
+  </div>
+</body>
+</html>
+  `;
+}
