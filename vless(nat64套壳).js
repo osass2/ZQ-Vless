@@ -80,7 +80,7 @@ export default {
       if (!upgradeHeader || upgradeHeader !== "websocket") {
         const url = new URL(request.url);
         switch (url.pathname) {
-          case "/": {
+		  case "/": {
             const cfInfo = JSON.stringify(request.cf, null, 2);
             const inputPage = getInputPage(request.headers.get("Host"), cfInfo);
             return new Response(inputPage, {
@@ -270,7 +270,7 @@ async function handle\u0076\u006c\u0065\u0073\u0073WebSocket(request) {
           }
           return num.toString(16).padStart(2, '0');
         });
-        const prefixes = ['2001:67c:2960:6464::']; //,'2a01:4f9:c010:3f02:64::'
+        const prefixes = ['2602:fc59:b0:64::'];
         const chosenPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
         return `[${chosenPrefix}${hex[0]}${hex[1]}:${hex[2]}${hex[3]}]`;
       }
@@ -564,7 +564,7 @@ async function handleUDPOutBound(webSocket, \u0076\u006c\u0065\u0073\u0073Respon
 function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
   const w\u0076\u006c\u0065\u0073\u0073ws = `\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${CDNIP}:8880?encryption=none&security=none&type=ws&host=${hostName}&path=%2F%3Fed%3D2560#${hostName}`;
   const p\u0076\u006c\u0065\u0073\u0073wstls = `\u0076\u006c\u0065\u0073\u0073\u003A//${userID}\u0040${CDNIP}:8443?encryption=none&security=tls&type=ws&host=${hostName}&sni=${hostName}&fp=random&path=%2F%3Fed%3D2560#${hostName}`;
-  const note = `项目地址：https://github.com/BAYUEQI/ZQ-Vless`;
+  const note = `项目地址：https://github.com/BAYUEQI/ZQ-Vless\nProxyIP使用nat64自动生成，无需设置`;
   const ty = `https://${hostName}/${userID}/ty`
   const cl = `https://${hostName}/${userID}/cl`
   const sb = `https://${hostName}/${userID}/sb`
@@ -592,7 +592,6 @@ function get\u0076\u006c\u0065\u0073\u0073Config(userID, hostName) {
     word-wrap: break-word;
 }
 </style>
-<link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="6" fill="#36d1c4"/><text x="16" y="18" text-anchor="middle" style="font-size:14px;fill:#fff;font-weight:bold;">ZQ</text><text x="16" y="27" text-anchor="middle" style="font-size:9px;fill:#fff;font-weight:bold;">Vless</text></svg>'>
 </head>
 <script>
 function copyToClipboard(text) {
@@ -2181,8 +2180,6 @@ return `{
 		  }
 		}`;
 } 
-
-// 在文件末尾新增 getInputPage 函数
 function getInputPage(hostName, cfInfo = '') {
   return `
 <!DOCTYPE html>
@@ -2190,7 +2187,6 @@ function getInputPage(hostName, cfInfo = '') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZQ-Vless</title>
   <title>ZQ-Vless</title>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FP2PPQ5VGH"></script>
   <script>
